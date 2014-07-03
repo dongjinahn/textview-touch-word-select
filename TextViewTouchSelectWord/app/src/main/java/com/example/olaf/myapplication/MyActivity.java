@@ -14,9 +14,10 @@ public class MyActivity extends Activity {
     private TextView mTxt;
     private TextView mTxtOffset;
     private TextView mTxtWord;
-    private static final String TAG = MyActivity.class.getSimpleName();
 
     int mOffset;
+
+    private static final String TAG = MyActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MyActivity extends Activity {
         mTxtOffset = (TextView) findViewById(R.id.txt_offset);
         mTxtWord = (TextView) findViewById(R.id.txt_selected_word);
 
+        mTxt.setText("Put your example sentence here!"); // todo : fill in
 
         mTxt.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -34,32 +36,50 @@ public class MyActivity extends Activity {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     mOffset = mTxt.getOffsetForPosition(motionEvent.getX(), motionEvent.getY());
                     mTxtOffset.setText("" + mOffset);
-                    mTxtWord.setText(mTxt.getText().toString().substring(mOffset));
+                    mTxtWord.setText(findWordForRightHanded(mTxt.getText().toString(), mOffset));
                 }
                 return false;
             }
         });
-
-
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    private String findWordForRightHanded(String str, int offset) { // when you touch ' ', this method returns left word.
+        if (str.length() == offset) {
+            offset--; // without this code, you will get exception when touching end of the text
         }
-        return super.onOptionsItemSelected(item);
+
+        if (str.charAt(offset) == ' ') {
+            offset--;
+        }
+        int startIndex = offset;
+        int endIndex = offset;
+
+        try {
+            while (str.charAt(startIndex) != ' ') {
+                startIndex--;
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            startIndex = 0;
+        }
+
+        try {
+            while (str.charAt(endIndex) != ' ') {
+                endIndex++;
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            endIndex = str.length();
+        }
+
+        // without this code, you will get 'here!' instead of 'here'
+        // if you use only english, just check whether this is alphabet,
+        // but 'I' use korean, so i use below algorithm to get clean word.
+        char last = str.charAt(endIndex - 1);
+        if (last == ',' || last == '.' ||
+                last == '!' || last == '?' ||
+                last == ':' || last == ';') {
+            endIndex--;
+        }
+
+        return str.substring(startIndex, endIndex);
     }
 }

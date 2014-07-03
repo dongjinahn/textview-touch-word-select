@@ -10,8 +10,7 @@
 
     <TextView
         android:id="@+id/txt"
-        android:textSize="20sp"
-        android:text="Bacteria and germs, of course, are one issue. 물론 세균이나 병균에 감염될 위험도 그 한 가지 이유이긴 하다. "
+        android:textSize="40sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
