@@ -28,7 +28,7 @@ public class MyActivity extends Activity {
         mTxtOffset = (TextView) findViewById(R.id.txt_offset);
         mTxtWord = (TextView) findViewById(R.id.txt_selected_word);
 
-        mTxt.setText("Put your example sentence here!"); // todo : fill in
+        mTxt.setText("Put your example\nsentence here."); // todo : fill in
 
         mTxt.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,7 +63,7 @@ public class MyActivity extends Activity {
         }
 
         try {
-            while (str.charAt(endIndex) != ' ' && str.charAt(startIndex) != '\n') {
+            while (str.charAt(endIndex) != ' ' && str.charAt(endIndex) != '\n') {
                 endIndex++;
             }
         } catch (StringIndexOutOfBoundsException e) {
