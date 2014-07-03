@@ -55,7 +55,7 @@ public class MyActivity extends Activity {
         int endIndex = offset;
 
         try {
-            while (str.charAt(startIndex) != ' ') {
+            while (str.charAt(startIndex) != ' ' && str.charAt(startIndex) != '\n') {
                 startIndex--;
             }
         } catch (StringIndexOutOfBoundsException e) {
@@ -63,7 +63,7 @@ public class MyActivity extends Activity {
         }
 
         try {
-            while (str.charAt(endIndex) != ' ') {
+            while (str.charAt(endIndex) != ' ' && str.charAt(startIndex) != '\n') {
                 endIndex++;
             }
         } catch (StringIndexOutOfBoundsException e) {
